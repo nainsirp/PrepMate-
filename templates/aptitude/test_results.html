@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Test Results - PrepMate{% endblock %}
+
+{% block content %}
+<div class="container mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Your Test Results</h2>
+        <a href="{% url 'aptitude:tests' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Take Another Test
+        </a>
+    </div>
+
+    {% if results %}
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Score</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Percentage</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for result in results %}
+                        <tr>
+                            <td class="px-6 py-4">{{ result.get_category_display }}</td>
+                            <td class="px-6 py-4">{{ result.score }}/{{ result.max_score }}</td>
+                            <td class="px-6 py-4">{{ result.percentage }}%</td>
+                            <td class="px-6 py-4">{{ result.date_taken|date:"M d, Y" }}</td>
+                            <td class="px-6 py-4">
+                                {% if result.percentage >= 70 %}
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Passed</span>
+                                {% else %}
+                                    <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Failed</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="{% url 'aptitude:test_detail' result.id %}" class="text-blue-600 hover:underline">View Details</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-gray-600">You haven't taken any tests yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

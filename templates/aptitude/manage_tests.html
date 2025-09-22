@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load aptitude_filters %}
+
+{% block title %}Manage Tests - PrepMate{% endblock %}
+
+{% block content %}
+<div class="container mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Manage Aptitude Tests</h2>
+        <button onclick="document.getElementById('addQuestionModal').classList.remove('hidden')" 
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Add New Question
+        </button>
+    </div>
+
+    <!-- Add Question Modal -->
+    <div id="addQuestionModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl">
+            <h3 class="text-xl font-bold mb-4">Add New Question</h3>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label class="block mb-1">Category</label>
+                    <select name="category" required class="w-full p-2 border rounded">
+                        {% for code, name in categories.items %}
+                            <option value="{{ code }}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1">Question</label>
+                    <textarea name="question" required rows="3" class="w-full p-2 border rounded"></textarea>
+                </div>
+                <div>
+                    <label class="block mb-1">Option 1</label>
+                    <input type="text" name="option1" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block mb-1">Option 2</label>
+                    <input type="text" name="option2" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block mb-1">Option 3</label>
+                    <input type="text" name="option3" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block mb-1">Option 4</label>
+                    <input type="text" name="option4" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block mb-1">Correct Answer</label>
+                    <select name="correct" required class="w-full p-2 border rounded">
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                        <option value="4">Option 4</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" 
+                            onclick="document.getElementById('addQuestionModal').classList.add('hidden')"
+                            class="px-4 py-2 border rounded">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">
+                        Add Question
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Question List -->
+    <div class="space-y-4">
+        {% for category, name in categories.items %}
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="text-lg font-bold mb-2">{{ name }}</h3>
+                {% with category_questions=questions|filter_by_category:category %}
+                    {% if category_questions %}
+                        <table class="min-w-full">
+                            <thead>
+                                <tr>
+                                    <th class="py-2 text-left">Question</th>
+                                    <th class="py-2 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for question in category_questions %}
+                                    <tr class="border-t">
+                                        <td class="py-3 pr-4">{{ question.question_text|truncatechars:100 }}</td>
+                                        <td class="py-3 text-right">
+                                            <a href="#" class="text-blue-600 hover:underline">Edit</a>
+                                            <a href="#" class="text-red-600 hover:underline ml-4">Delete</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p class="text-gray-600">No questions added for this category yet.</p>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Test Details - PrepMate{% endblock %}
+
+{% block content %}
+<div class="container mx-auto max-w-4xl">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Test Details</h2>
+        <a href="{% url 'aptitude:results' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Back to Results
+        </a>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow mb-6">
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <p class="text-gray-600">Category:</p>
+                <p class="font-bold">{{ category_name }}</p>
+            </div>
+            <div>
+                <p class="text-gray-600">Date Taken:</p>
+                <p class="font-bold">{{ result.date_taken|date:"F d, Y H:i" }}</p>
+            </div>
+            <div>
+                <p class="text-gray-600">Score:</p>
+                <p class="font-bold">{{ result.score }}/{{ result.max_score }}</p>
+            </div>
+            <div>
+                <p class="text-gray-600">Percentage:</p>
+                <p class="font-bold">
+                    {{ result.percentage }}%
+                    {% if result.percentage >= 70 %}
+                        <span class="ml-2 px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Passed</span>
+                    {% else %}
+                        <span class="ml-2 px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Failed</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+        <h3 class="text-xl font-bold mb-4">Question Analysis</h3>
+        
+        {% if questions %}
+            <div class="space-y-6">
+                {% for question in questions %}
+                    <div class="p-4 border rounded-lg {% if forloop.counter <= result.score %}bg-green-50 border-green-200{% else %}bg-red-50 border-red-200{% endif %}">
+                        <h4 class="font-bold mb-2">{{ forloop.counter }}. {{ question.question_text }}</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                            <div class="p-2 rounded {% if question.correct_answer == 1 %}bg-green-100 font-semibold{% endif %}">
+                                A. {{ question.option_1 }}
+                            </div>
+                            <div class="p-2 rounded {% if question.correct_answer == 2 %}bg-green-100 font-semibold{% endif %}">
+                                B. {{ question.option_2 }}
+                            </div>
+                            <div class="p-2 rounded {% if question.correct_answer == 3 %}bg-green-100 font-semibold{% endif %}">
+                                C. {{ question.option_3 }}
+                            </div>
+                            <div class="p-2 rounded {% if question.correct_answer == 4 %}bg-green-100 font-semibold{% endif %}">
+                                D. {{ question.option_4 }}
+                            </div>
+                        </div>
+                        <p class="text-sm mt-2 font-medium">
+                            {% if forloop.counter <= result.score %}
+                                <span class="text-green-700">✓ Correct</span>
+                            {% else %}
+                                <span class="text-red-700">✗ Incorrect</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-gray-600">No questions found for this test.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

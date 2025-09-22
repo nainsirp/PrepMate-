@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Assessor Dashboard - PrepMate{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <h1 class="text-3xl font-bold">Assessor Dashboard</h1>
+    
+    <!-- Stats Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-semibold text-gray-600">Scheduled Interviews</h3>
+            <p class="text-3xl font-bold">0</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-semibold text-gray-600">Active Tests</h3>
+            <p class="text-3xl font-bold">0</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-semibold text-gray-600">GD Sessions</h3>
+            <p class="text-3xl font-bold">0</p>
+        </div>
+    </div>
+
+    <!-- Management Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="{% url 'interviews:manage' %}" class="block p-6 bg-blue-50 rounded-lg hover:bg-blue-100">
+            <h3 class="font-bold text-lg mb-2">Manage Interviews</h3>
+            <p class="text-gray-600">Schedule and conduct interviews</p>
+        </a>
+        <a href="{% url 'aptitude:manage' %}" class="block p-6 bg-green-50 rounded-lg hover:bg-green-100">
+            <h3 class="font-bold text-lg mb-2">Manage Tests</h3>
+            <p class="text-gray-600">Create and grade tests</p>
+        </a>
+        <a href="{% url 'groupdiscussion:manage' %}" class="block p-6 bg-purple-50 rounded-lg hover:bg-purple-100">
+            <h3 class="font-bold text-lg mb-2">Manage GD</h3>
+            <p class="text-gray-600">Create and moderate GD sessions</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

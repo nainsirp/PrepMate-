@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Aptitude Tests - PrepMate{% endblock %}
+
+{% block content %}
+<div class="container mx-auto">
+    <h2 class="text-2xl font-bold mb-6">Aptitude Tests</h2>
+    
+    <!-- Test Categories -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for code, name in categories.items %}
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="font-bold text-lg mb-2">{{ name }}</h3>
+                <p class="text-gray-600 mb-4">Test your {{ name|lower }} skills</p>
+                <a href="{% url 'aptitude:take_test' code %}" 
+                   class="block text-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Start Test
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Previous Results -->
+    {% if results %}
+        <div class="mt-8">
+            <h3 class="text-xl font-bold mb-4">Your Previous Results</h3>
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <table class="min-w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Score</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Percentage</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for result in results %}
+                            <tr>
+                                <td class="px-6 py-4">{{ result.get_category_display }}</td>
+                                <td class="px-6 py-4">{{ result.score }}/{{ result.max_score }}</td>
+                                <td class="px-6 py-4">{{ result.percentage }}%</td>
+                                <td class="px-6 py-4">{{ result.date_taken|date:"M d, Y" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

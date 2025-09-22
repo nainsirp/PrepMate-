@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Take Test - PrepMate{% endblock %}
+
+{% block content %}
+<div class="container mx-auto max-w-3xl">
+    <h2 class="text-2xl font-bold mb-6">Aptitude Test</h2>
+    
+    {% if questions %}
+        <form method="post" class="space-y-8">
+            {% csrf_token %}
+            {% for question in questions %}
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-lg mb-4">{{ forloop.counter }}. {{ question.question_text }}</h3>
+                    <div class="space-y-2">
+                        <label class="block p-2 hover:bg-gray-50 rounded">
+                            <input type="radio" name="q{{ question.id }}" value="1" required>
+                            <span class="ml-2">{{ question.option_1 }}</span>
+                        </label>
+                        <label class="block p-2 hover:bg-gray-50 rounded">
+                            <input type="radio" name="q{{ question.id }}" value="2" required>
+                            <span class="ml-2">{{ question.option_2 }}</span>
+                        </label>
+                        <label class="block p-2 hover:bg-gray-50 rounded">
+                            <input type="radio" name="q{{ question.id }}" value="3" required>
+                            <span class="ml-2">{{ question.option_3 }}</span>
+                        </label>
+                        <label class="block p-2 hover:bg-gray-50 rounded">
+                            <input type="radio" name="q{{ question.id }}" value="4" required>
+                            <span class="ml-2">{{ question.option_4 }}</span>
+                        </label>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                    Submit Test
+                </button>
+            </div>
+        </form>
+    {% else %}
+        <div class="bg-yellow-50 border border-yellow-200 p-6 rounded-lg">
+            <p class="text-yellow-700">No questions available for this category yet.</p>
+            <a href="{% url 'aptitude:tests' %}" class="mt-4 inline-block text-blue-600 hover:underline">
+                Back to Tests
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

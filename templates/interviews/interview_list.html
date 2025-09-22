@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Interviews - PrepMate{% endblock %}
+
+{% block content %}
+<div class="container mx-auto">
+    <h2 class="text-2xl font-bold mb-4">My Interviews</h2>
+    {% if interviews %}
+        <div class="grid gap-4">
+            {% for interview in interviews %}
+                <div class="p-4 bg-white rounded shadow">
+                    <!-- Interview details will go here -->
+                    <p>Interview placeholder</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-600">No interviews scheduled yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
