@@ -210,10 +210,6 @@
             color: #f3f4f6;
         }
         
-        .dark .text-gray-500 {
-            color: #9ca3af;
-        }
-        
         .dark .border-gray-200 {
             border-color: #374151;
         }
@@ -246,11 +242,6 @@
             background-color: #7f1d1d;
         }
         
-        /* Dark mode user avatar section */
-        .dark .bg-gradient-to-r.from-blue-50.to-purple-50 {
-            background: linear-gradient(135deg, #1e3a8a 0%, #581c87 100%);
-        }
-        
         /* Dark mode toggle button */
         .theme-toggle {
             transition: all 0.3s ease;
@@ -258,15 +249,6 @@
         
         .theme-toggle:hover {
             transform: rotate(180deg);
-        }
-        
-        /* Enhanced dark mode styles for user info */
-        .dark .user-info-text {
-            color: #f3f4f6 !important;
-        }
-        
-        .dark .user-info-subtitle {
-            color: #d1d5db !important;
         }
         
         /* Dark mode card animations */
@@ -427,8 +409,8 @@
                             <span class="text-white font-bold">{{ user.username|first|upper }}</span>
                         </div>
                         <div>
-                            <span class="text-sm font-semibold text-gray-700 user-info-text">{{ user.username }}</span>
-                            <p class="text-xs text-gray-500 user-info-subtitle">{{ user.get_role_display }}</p>
+                            <span class="text-sm font-semibold text-gray-700">{{ user.username }}</span>
+                            <p class="text-xs text-gray-500">{{ user.get_role_display }}</p>
                         </div>
                     </div>
                 </div>
@@ -494,7 +476,6 @@
             html.classList.add('dark');
             themeIcon.classList.remove('fa-moon');
             themeIcon.classList.add('fa-sun');
-            updateThemeToggleBackground(true);
         }
 
         // Theme toggle functionality
@@ -506,22 +487,18 @@
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
                 localStorage.setItem('theme', 'dark');
-                updateThemeToggleBackground(true);
+                
+                // Add a nice animation effect
+                themeToggle.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
             } else {
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
                 localStorage.setItem('theme', 'light');
-                updateThemeToggleBackground(false);
-            }
-        });
-
-        function updateThemeToggleBackground(isDark) {
-            if (isDark) {
-                themeToggle.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
-            } else {
+                
+                // Reset background
                 themeToggle.style.background = '';
             }
-        }
+        });
 
         // Add smooth transition when theme changes
         document.addEventListener('DOMContentLoaded', () => {
@@ -540,7 +517,6 @@
             themeIcon.classList.remove('fa-moon');
             themeIcon.classList.add('fa-sun');
             localStorage.setItem('theme', 'dark');
-            updateThemeToggleBackground(true);
         }
     </script>
     
