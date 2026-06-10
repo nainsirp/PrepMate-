@@ -1,7 +1,5 @@
 # PrepMate
 
-![PrepMate Logo](static/img/prepmate-logo.png)
-
 ## Overview
 
 PrepMate is a comprehensive interview preparation platform designed to help job seekers and students excel in their interview processes. The platform provides tools for mock interviews, aptitude testing, and group discussions, all managed through an intuitive and interactive interface.
