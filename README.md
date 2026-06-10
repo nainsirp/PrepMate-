@@ -74,9 +74,10 @@ PrepMate is a comprehensive interview preparation platform designed to help job 
 
 7. Access the application at http://127.0.0.1:8000/
 
-## Project Structure
+## 📂 Project Structure
 
-PrepMate/
+```text
+PrepMate
 ├── accounts/           # User authentication and profiles
 ├── aptitude/           # Aptitude tests functionality
 ├── dashboard/          # Main dashboards for users
@@ -85,10 +86,10 @@ PrepMate/
 ├── prepmate/           # Main project settings
 ├── static/             # Static files (CSS, JS, images)
 ├── templates/          # HTML templates
-├── media/              # User uploaded content
+├── media/              # User-uploaded content
 ├── manage.py           # Django management script
-└── requirements.txt    # Project dependencies 
-
+└── requirements.txt    # Project dependencies
+```
 ## Features in Detail
 
 Interview Module:
